@@ -13,7 +13,7 @@ end
 rush = Rushover::Cli::Rush.new # => #<Rushover::Cli::Rush:0x007fa95a4d1f88>
 message = ARGV.join(" ")
 
-if opts[:h] 
+if opts[:h]
   puts opts
 elsif opts[:v]
   puts rush.version
@@ -26,8 +26,5 @@ elsif message.length > 0
   user = Rushover::User.new(user_key, client)
   user.notify(message, title: opts[:title])
 else
-  raise "You didn't provide a message with a '-m' flag."
+  raise "You didn't provide a message."
 end
-
-
-# ~> -:29:in `<main>': You didn't provide a message with a '-m' flag. (RuntimeError)
