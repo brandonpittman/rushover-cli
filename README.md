@@ -34,7 +34,7 @@ rushover message [-t title]
 :rush: anyapptoken
 ```
 
-The application you use doesn't need to be name 'rush'. It just needs to be any app token. If you want to change the title that gets passed to Pushover, just use the `-t` option.
+The application you use doesn't need to be named 'rush'. It just needs to be any app token. If you want to change the title that gets passed to Pushover, just use the `-t` option.
 
 ## Contributing
 
