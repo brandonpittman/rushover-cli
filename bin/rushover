@@ -17,7 +17,7 @@ rush = Rushover::Cli::Rush.new
 message = ARGV.join(" ")
 
 # Decide what to do with options and arguments
-if opts[:h]
+if opts[:h] || ARGV.empty?
   puts opts
 elsif opts[:v]
   puts rush.version
