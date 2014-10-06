@@ -26,7 +26,7 @@ rushover message [-t title]
 
 `rushover-cli` requires a `:user` key and a `:rush` key to be saved to `~/.rushrc`.
 
-```ruby
+```yaml
 # Example
 
 ---

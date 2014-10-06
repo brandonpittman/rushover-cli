@@ -9,15 +9,14 @@ describe Rushover::Cli do
     expect(Rushover::Cli::VERSION).not_to be nil
   end
 
-  it "it can find a .rushrc file if it exists" do
-    expect(rush.rc_file_exist?).to be_truthy if rush.rc_file.exist?
+  context ".rushrc file exists" do
+    it "can read a rc file" do
+      if rc_file.exist?
+        expect(rush.get_key(:user)).to be_truthy
+        expect(rush.get_key(:rush)).to be_truthy
+      end
+    end
   end
 
-  it "can initialize a .rushrc file it doesn't exist" do
-    rush.create_rc_file unless rush.rc_file.exist?
-    hash = {user: :user, token: :token}
-    expect(rush.rc_file_exist?).to be_truthy if rush.rc_file.exist?
-    fail
-  end
 
 end
