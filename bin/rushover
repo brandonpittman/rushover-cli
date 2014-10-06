@@ -2,6 +2,7 @@
 
 require 'rushover/cli'
 
+# Grabs options passed on the command line
 opts = Slop.parse! do
   banner 'Usage: rush MESSAGE [-t TITLE]'
 
@@ -10,9 +11,12 @@ opts = Slop.parse! do
   on :h, :help, 'Display help'
 end
 
-rush = Rushover::Cli::Rush.new # => #<Rushover::Cli::Rush:0x007fa95a4d1f88>
+# Creates a Rush object
+rush = Rushover::Cli::Rush.new
+# Sets message for use later in script
 message = ARGV.join(" ")
 
+# Decide what to do with options and arguments
 if opts[:h]
   puts opts
 elsif opts[:v]
