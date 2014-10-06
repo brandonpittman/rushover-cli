@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+require 'rushover/cli'
+
+opts = Slop.parse! do
+  banner 'Usage: rush MESSAGE [-t TITLE]'
+
+  on :t, :title,  'An optional title'
+  on :v, :version, 'Print version number'
+  on :h, :help, 'Display help'
+end
+
+rush = Rushover::Cli::Rush.new # => #<Rushover::Cli::Rush:0x007f8eba2a17c8>
+rush.get_key(:user) # => "ZCaVbpIeRvvUvue25CnQ28YWBKAZot"
+rush.get_key(:rush) # => "a4rJYdtkpGCC3FaiZrfJeeTwzp2oxf"
+rush.version # => "0.0.1"
+message = ARGV.join(" ")
+
+if opts[:h] # !> instance variable @opts not initialized
+  puts opts
+elsif opts[:v]
+  puts rush.version
+  exit
+elsif message.length > 0
+  app_token = rush.get_key(:rush)
+  user_key = rush.get_key(:user)
+
+  client = Rushover::Client.new(app_token)
+  user = Rushover::User.new(user_key, client)
+  user.notify(message, title: opts[:title])
+else
+  raise "You didn't provide a message with a '-m' flag."
+end
+
+
+# ~> -:34:in `<main>': You didn't provide a message with a '-m' flag. (RuntimeError)

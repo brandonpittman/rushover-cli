@@ -1,6 +1,6 @@
 # Rushover::Cli
 
-TODO: Write a gem description
+`rushover-cli` is a command line interface to the `rushover` gem.
 
 ## Installation
 
@@ -20,7 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+rushover message [-t title]
+
+## Caveats
+
+`rushover-cli` requires a `:user` key and a `:rush` key to be saved to `~/.rushrc`.
+
+```ruby
+# Example
+
+---
+:user: youruserkey
+:rush: anyapptoken
+```
+
+The application you use doesn't need to be name 'rush'. It just needs to be any app token. If you want to change the title that gets passed to Pushover, just use the `-t` option.
 
 ## Contributing
 
