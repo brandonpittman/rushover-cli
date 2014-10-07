@@ -2,33 +2,52 @@
 
 require 'rushover/cli'
 
-# Grabs options passed on the command line
-opts = Slop.parse! do
-  banner 'Usage: rush MESSAGE [-t TITLE]'
-
-  on 't=', 'title=',  'An optional title'
-  on :v, :version, 'Print version number'
-  on :h, :help, 'Display help'
-end
-
-# Creates a Rush object
 rush = Rushover::Cli::Rush.new
-# Sets message for use later in script
-message = ARGV.join(" ")
 
-# Decide what to do with options and arguments
-if opts[:h] || ARGV.empty?
-  puts opts
-elsif opts[:v]
-  puts rush.version
-  exit
-elsif message.length > 0
-  app_token = rush.get_key(:rush)
-  user_key = rush.get_key(:user)
+opts = Slop.parse! do
+  on :v, :version, 'Print version number' do
+    puts Rushover::Cli::VERSION
+  end
+  on :h, :help, 'Display help'
 
-  client = Rushover::Client.new(app_token)
-  user = Rushover::User.new(user_key, client)
-  user.notify(message, title: opts[:title])
-else
-  raise "You didn't provide a message."
+  command 'config' do
+    banner 'Usage: rush config -u USER_KEY -a APP_TOKEN'
+    on :u=, :user=, 'Set user key'
+    on :a=, :app=, 'Set app token'
+    on :h, :help, 'Print help'
+
+    run do |opts|
+      if opts[:h]
+        puts opts
+      else
+        rush.add_key(:user, opts[:user])
+        rush.add_key(:rush, opts[:app])
+      end
+    end
+  end
+
+  command 'push' do
+    banner 'Usage: rush push MESSAGE [-t TITLE]'
+    on 't=', 'title=',  'An optional title'
+
+    run do |opts, args|
+      message = args.join(" ")
+
+      if opts[:h] || message.empty?
+        puts opts
+        exit
+      elsif message.length > 0
+        user_key = rush.get_key(:user)
+        app_token = rush.get_key(:rush)
+
+        client = Rushover::Client.new(app_token)
+        user = Rushover::User.new(user_key, client)
+        user.notify(message, title: opts[:title])
+      else
+        raise "You didn't provide a message."
+      end
+    end
+  end
 end
+
+puts opts if opts[:h]
