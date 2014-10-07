@@ -20,19 +20,18 @@ Or install it yourself as:
 
 ## Usage
 
-rushover message [-t title]
+    rushover config -u USER_KEY -a APP_TOKEN
+    rushover push MESSAGE [-t title]
 
 ## Caveats
 
 `rushover-cli` requires a `:user` key and a `:rush` key to be saved to `~/.rushrc`.
 
-```yaml
-# Example
+    # Example
 
----
-:user: youruserkey
-:rush: anyapptoken
-```
+    ---
+    :user: youruserkey
+    :rush: anyapptoken
 
 The application you use doesn't need to be named 'rush'. It just needs to be any app token. If you want to change the title that gets passed to Pushover, just use the `-t` option.
 

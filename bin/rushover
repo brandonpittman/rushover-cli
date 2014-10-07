@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rushover/cli'
+require 'pp'
 
 rush = Rushover::Cli::Rush.new
 
@@ -12,13 +13,14 @@ opts = Slop.parse! do
 
   command 'config' do
     banner 'Usage: rush config -u USER_KEY -a APP_TOKEN'
-    on :u=, :user=, 'Set user key'
-    on :a=, :app=, 'Set app token'
+    on :u=, :user=, 'Your user key'
+    on :a=, :app=, 'Your app token'
     on :h, :help, 'Print help'
 
     run do |opts|
       if opts[:h]
         puts opts
+        exit
       else
         rush.add_key(:user, opts[:user])
         rush.add_key(:rush, opts[:app])
@@ -51,4 +53,6 @@ opts = Slop.parse! do
   end
 end
 
-puts opts if opts[:h]
+if opts[:h] || ARGV.empty?
+  puts opts
+end
