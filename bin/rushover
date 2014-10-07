@@ -29,6 +29,7 @@ opts = Slop.parse! do
   command 'push' do
     banner 'Usage: rush push MESSAGE [-t TITLE]'
     on 't=', 'title=',  'An optional title'
+    on :h, :help, 'Print help'
 
     run do |opts, args|
       message = args.join(" ")
