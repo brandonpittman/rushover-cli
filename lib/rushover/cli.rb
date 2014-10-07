@@ -14,6 +14,7 @@ module Rushover
     # This class is accessing helper methods used in the bin file.
     class Rush
 
+      # @!group Rushover objects
       # @param app_token [String]
       # @return [Rushover::Client] Client object to be used in #notify
       # @see #notify
@@ -30,6 +31,7 @@ module Rushover
       def user(user_key, client)
         Rushover::User.new(user_key, client)
       end
+      # @!endgroup
 
       # @param user [Rushover::User]
       # @return [Hash] response from Pushover
@@ -40,6 +42,7 @@ module Rushover
         user.notify(message, title: opts[:title])
       end
 
+      # @!group Configuration management
       # @return [Pathname] location of .rushrc file
       # @since 0.0.2
       def rc_file
@@ -51,7 +54,9 @@ module Rushover
       def config
         YAML::Store.new(rc_file)
       end
+      # @!endgroup
 
+      # @!group Key management
       # @param key_symbol [Symbol] symbol to fetch
       # @return [String] value of fetched key
       # @since 0.0.2
@@ -74,12 +79,15 @@ module Rushover
           store[key_symbol] = key_value
         end
       end
+      # @!endgroup
 
+      # @!group Miscellaneous
       # @return [String] version number of `rushover-cli` as a String
       # @since 0.0.2
       def version
         Rushover::Cli::VERSION
       end
+      # @!endgroup
 
     end
   end

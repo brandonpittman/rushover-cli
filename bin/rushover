@@ -19,7 +19,7 @@ opts = Slop.parse! do
     on :h, :help, 'Print help'
 
     run do |opts|
-      if opts[:h]
+      if opts[:h] || (!opts[:u] && !opts[:a])
         puts opts
         exit
       else
