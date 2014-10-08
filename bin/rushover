@@ -1,36 +1,43 @@
 #!/usr/bin/env ruby
 
 require 'rushover/cli'
+require 'pp'
 
 rush = Rushover::Cli::Rush.new
 
-opts = Slop.parse! do
+opts = Slop.parse do
   on :v, :version, 'Print version number' do
     puts Rushover::Cli::VERSION
   end
   on :h, :help, 'Display help'
 
   # This command is used to set user key and app token in the YAML::Store.
-  # @since 0.0.8 
+  # @since 0.0.8
   command 'config' do
     banner 'Usage: rushover config -u USER_KEY -a APP_TOKEN'
     on :u=, :user=, 'Your user key'
     on :a=, :app=, 'Your app token'
+    on :user_key, "Print your user key"
+    on :app_token, "Print your app token"
     on :h, :help, 'Print help'
 
     run do |opts|
-      if opts[:h] || (!opts[:u] && !opts[:a])
-        puts opts
-        exit
-      else
+      if opts[:u] && opts[:a]
         rush.add_key(:user, opts[:user])
         rush.add_key(:rush, opts[:app])
+      elsif opts[:user_key]
+        puts rush.get_key(:user)
+      elsif opts[:app_token]
+        puts rush.get_key(:rush)
+      else
+        puts opts
       end
+      exit
     end
   end
 
   # This command is used to send notifications using Pushover.
-  # @since 0.0.8 
+  # @since 0.0.8
   command 'push' do
     banner 'Usage: rushover push MESSAGE [-t TITLE]'
     on 't=', 'title=',  'An optional title'
@@ -39,25 +46,21 @@ opts = Slop.parse! do
     run do |opts, args|
       message = args.join(" ")
 
-      if opts[:h] || message.empty?
-        puts opts
-        exit
-      elsif message.length > 0
+      if message.length > 0
         user_key = rush.get_key(:user)
         app_token = rush.get_key(:rush)
         client = Rushover::Client.new(app_token)
         user = Rushover::User.new(user_key, client)
         user.notify(message, title: opts[:title])
       else
-        raise "You didn't provide a message."
+        puts opts
       end
+      exit
     end
   end
 end
 
 # This little bit just helps catch the times when `rushover` is run without any
-# arguments or with the --help options.
-# @since 0.0.8 
-if opts[:h] || ARGV.empty?
-  puts opts
-end
+# commands with the --help option.
+# @since 0.0.8
+puts opts if opts[:h] || ARGV.empty?

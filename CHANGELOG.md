@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.0 --- 2014-10-08
+
+### Fixed
+
+- fixed bug where help would print after printing user key or app token
+
 ## 0.0.10 --- 2014-10-08
 
 ### Fixed
