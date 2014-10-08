@@ -17,17 +17,17 @@ opts = Slop.parse do
     banner 'Usage: rushover config -u USER_KEY -a APP_TOKEN'
     on :u=, :user=, 'Your user key'
     on :a=, :app=, 'Your app token'
-    on :user_key, "Print your user key"
-    on :app_token, "Print your app token"
+    on :userkey, "Print your user key"
+    on :apptoken, "Print your app token"
     on :h, :help, 'Print help'
 
     run do |opts|
       if opts[:u] && opts[:a]
         rush.add_key(:user, opts[:user])
         rush.add_key(:rush, opts[:app])
-      elsif opts[:user_key]
+      elsif opts[:userkey]
         puts rush.get_key(:user)
-      elsif opts[:app_token]
+      elsif opts[:apptoken]
         puts rush.get_key(:rush)
       else
         puts opts
